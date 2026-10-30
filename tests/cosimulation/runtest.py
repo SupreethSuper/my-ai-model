@@ -33,7 +33,7 @@ def run_cosimulation_test(source_file, *unused):
     if test_harness.test_args.randseed:
         random_seed = int(test_harness.test_args.randseed[0])
     else:
-        random_seed = random.randint(0, 0xffffffff)
+        random_seed = random.randint(0, 0x7fffffff)
 
     if test_harness.DEBUG:
         print('random seed is {}'.format(random_seed))

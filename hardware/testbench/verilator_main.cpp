@@ -55,12 +55,10 @@ int main(int argc, char **argv, char **env)
     //   (not all, any block that also triggers on clock will synchronously
     //   reset if it is asserted).
     //
-    // This is a bit of a hack, set the 'last' state of reset to zero and reset to one.
-    // This will cause a positive edge event on the next eval() that will trigger
-    // all reset blocks. Reset will be deasserted in the main loop below.
-    testbench->__Vclklast__TOP__reset = 0;
-    testbench->reset = 1;
+    testbench->reset = 0;
     testbench->clk = 0;
+    testbench->eval();
+    testbench->reset = 1;
     testbench->eval();
 
 #if VM_TRACE // If verilator was invoked with --trace

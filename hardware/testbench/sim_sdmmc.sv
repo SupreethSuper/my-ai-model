@@ -196,7 +196,7 @@ module sim_sdmmc(
                     $c("fseek(VL_CVT_I_FP(", block_fd, "), ",
                         {command[1], command[2], command[3], command[4]} * block_length,
                         ", SEEK_SET);");
-                    $c("fread(", block_buffer, ", 1, ", block_length, ", VL_CVT_I_FP(", block_fd, "));");
+                    $c("fread(&", block_buffer, "[0], 1, ", block_length, ", VL_CVT_I_FP(", block_fd, "));");
     `else
                     // May require tweaking for other simulators...
                     $fseek(block_fd, {command[1], command[2], command[3], command[4]}
@@ -375,7 +375,7 @@ module sim_sdmmc(
 `ifdef VERILATOR
                 // .Verilator doesn't support $fseek
                 $c("fseek(VL_CVT_I_FP(", block_fd, "), ", transfer_address, ", SEEK_SET);");
-                $c("fwrite(", block_buffer, ", 1, ", block_length, ", VL_CVT_I_FP(",
+                $c("fwrite(&", block_buffer, "[0], 1, ", block_length, ", VL_CVT_I_FP(",
                     block_fd, "));");
 `else
                 // May require tweaking for other simulators...
@@ -422,5 +422,4 @@ module sim_sdmmc(
             shift_count <= 0;    // Cancel byte if SD is deasserted
     end
 endmodule
-
 

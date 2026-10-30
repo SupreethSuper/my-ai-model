@@ -52,7 +52,7 @@ module test_int_execute_stage(input clk, input reset);
 
     int_execute_stage int_execute_stage(.*);
 
-    task branch(input branch_type_t branch_type, input scalar_t regval);
+    task automatic branch(input branch_type_t branch_type, input scalar_t regval);
         scalar_t pc = $random() & ~3;
         scalar_t offset = $random() & ~3;
         of_instruction_valid <= 1;

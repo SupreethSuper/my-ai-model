@@ -290,7 +290,7 @@ def run_program(
 
         output = run_test_with_timeout(args, timeout)
     elif target == 'verilator':
-        random_seed = random.randint(0, 0xffffffff)
+        random_seed = random.randint(0, 0x7fffffff)
         if DEBUG:
             print('random seed is {}'.format(random_seed))
 

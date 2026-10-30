@@ -58,9 +58,10 @@ int main(int argc, char **argv, char **env)
 
     V$MODULE$ *testbench = new V$MODULE$;
 
-    testbench->__Vclklast__TOP__reset = 0;
-    testbench->reset = 1;
+    testbench->reset = 0;
     testbench->clk = 0;
+    testbench->eval();
+    testbench->reset = 1;
     testbench->eval();
 
 #if VM_TRACE // If verilator was invoked with --trace
@@ -104,6 +105,7 @@ def run_unit_test(filename, _):
         'verilator',
         '--unroll-count', '512',
         '--assert',
+        '-Wno-fatal',
         '-I' + test_harness.HARDWARE_INCLUDE_DIR,
         '-DSIMULATION=1',
         '-Mdir', test_harness.WORK_DIR,
@@ -118,8 +120,8 @@ def run_unit_test(filename, _):
         # The 'verilator' command is actually a perl script. Executing it
         # with shell=True is necessary for it to work correctly in all
         # environments.
-        subprocess.call(' '.join(verilator_args), stderr=subprocess.STDOUT,
-                        shell=True)
+        subprocess.check_output(' '.join(verilator_args),
+                                stderr=subprocess.STDOUT, shell=True)
     except subprocess.CalledProcessError as exc:
         raise test_harness.TestException(
             'Verilation failed:\n' + exc.output.decode())

@@ -29,8 +29,8 @@ module test_control_registers(input clk, input reset);
     localparam PC0 = 32'h2ad98;
     localparam PC1 = 32'h167c8;
     localparam PC2 = 32'h6340;
-    localparam TRAP_CAUSE0 = TT_ILLEGAL_INSTRUCTION;
-    localparam TRAP_CAUSE1 = TT_TLB_MISS;
+    localparam trap_type_t TRAP_CAUSE0 = TT_ILLEGAL_INSTRUCTION;
+    localparam trap_type_t TRAP_CAUSE1 = TT_TLB_MISS;
     localparam TRAP_SUBCYCLE0 = 4'd6;
     localparam TRAP_SUBCYCLE1 = 4'd9;
     localparam FLAGS0 = 32'b011;    // user mode, mmu enable, interrupt enable

@@ -95,7 +95,7 @@ module test_dcache_data_stage(input clk, input reset);
 
     dcache_data_stage dcache_data_stage(.*);
 
-    task cache_hit(input scalar_t address, input logic load);
+    task automatic cache_hit(input scalar_t address, input logic load);
         int hit_way = $random();
 
         dt_mask_value <= 16'hffff;
@@ -112,8 +112,10 @@ module test_dcache_data_stage(input clk, input reset);
         dt_tag[hit_way] <= DCACHE_TAG_BITS'(address >> (32 - DCACHE_TAG_BITS));
     endtask
 
-    task cache_miss(input scalar_t address, input logic load);
-        int request_tag = address >> (32 - DCACHE_TAG_BITS);
+    task automatic cache_miss(input scalar_t address, input logic load);
+        int request_tag;
+
+        request_tag = address >> (32 - DCACHE_TAG_BITS);
 
         dt_mask_value <= 16'hffff;
         dt_tlb_hit <= 1;
@@ -152,7 +154,7 @@ module test_dcache_data_stage(input clk, input reset);
             l2i_dtag_update_set <= '0;
             l2i_dtag_update_tag <= '0;
             wb_rollback_thread_idx <= '0;
-            wb_rollback_pipeline <= '0;
+            wb_rollback_pipeline <= pipeline_sel_t'(0);
         end
         else
         begin

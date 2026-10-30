@@ -69,9 +69,9 @@ module test_l2_cache_atomic(input clk, input reset);
                 begin
                     l2i_request_valid <= 1;
                     l2i_request[0].id <= 0;
-                    l2i_request[0].packet_type = L2REQ_LOAD;
-                    l2i_request[0].cache_type = CT_DCACHE;
-                    l2i_request[0].address = ADDR0;
+                    l2i_request[0].packet_type <= L2REQ_LOAD;
+                    l2i_request[0].cache_type <= CT_DCACHE;
+                    l2i_request[0].address <= ADDR0;
                     state <= state + 1;
                 end
 
@@ -88,7 +88,7 @@ module test_l2_cache_atomic(input clk, input reset);
                 begin
                     l2i_request_valid <= 1;
                     l2i_request[0].id <= 0;
-                    l2i_request[0].packet_type = L2REQ_LOAD_SYNC;
+                    l2i_request[0].packet_type <= L2REQ_LOAD_SYNC;
                     state <= state + 1;
                 end
 
@@ -108,8 +108,8 @@ module test_l2_cache_atomic(input clk, input reset);
                 4:
                 begin
                     l2i_request_valid <= 1;
-                    l2i_request[0].packet_type = L2REQ_STORE_SYNC;
-                    l2i_request[0].data = DATA0;  // LSB aligned
+                    l2i_request[0].packet_type <= L2REQ_STORE_SYNC;
+                    l2i_request[0].data <= DATA0;  // LSB aligned
                     state <= state + 1;
                 end
 
@@ -135,7 +135,7 @@ module test_l2_cache_atomic(input clk, input reset);
                 begin
                     l2i_request_valid <= 1;
                     l2i_request[0].id <= 1;
-                    l2i_request[0].packet_type = L2REQ_LOAD_SYNC;
+                    l2i_request[0].packet_type <= L2REQ_LOAD_SYNC;
                     state <= state + 1;
                 end
 
@@ -143,7 +143,7 @@ module test_l2_cache_atomic(input clk, input reset);
                 begin
                     l2i_request_valid <= 1;
                     l2i_request[0].id <= 2;
-                    l2i_request[0].packet_type = L2REQ_LOAD_SYNC;
+                    l2i_request[0].packet_type <= L2REQ_LOAD_SYNC;
                     state <= state + 1;
                 end
 
@@ -173,9 +173,9 @@ module test_l2_cache_atomic(input clk, input reset);
                 10:
                 begin
                     l2i_request_valid <= 1;
-                    l2i_request[0].id = 1;
-                    l2i_request[0].packet_type = L2REQ_STORE_SYNC;
-                    l2i_request[0].data = DATA1;
+                    l2i_request[0].id <= 1;
+                    l2i_request[0].packet_type <= L2REQ_STORE_SYNC;
+                    l2i_request[0].data <= DATA1;
                     state <= state + 1;
                 end
 
@@ -183,9 +183,9 @@ module test_l2_cache_atomic(input clk, input reset);
                 11:
                 begin
                     l2i_request_valid <= 1;
-                    l2i_request[0].id = 2;
-                    l2i_request[0].packet_type = L2REQ_STORE_SYNC;
-                    l2i_request[0].data = DATA2;
+                    l2i_request[0].id <= 2;
+                    l2i_request[0].packet_type <= L2REQ_STORE_SYNC;
+                    l2i_request[0].data <= DATA2;
                     state <= state + 1;
                 end
 

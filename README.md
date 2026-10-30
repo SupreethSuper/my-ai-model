@@ -24,14 +24,12 @@ This requires Ubuntu 16 (Xenial Xeres) or later to get the proper package
 versions. It should work for other distributions, but you will probably need
 to change some package names. From a terminal, execute the following:
 
-    sudo apt-get -y install autoconf cmake make ninja gcc g++ bison flex python \
-        python3 perl emacs openjdk-8-jdk swig zlib1g-dev python-dev \
-        libxml2-dev libedit-dev libncurses5-dev libsdl2-dev gtkwave python3-pip
+    sudo apt-get update && sudo apt-get -y install \
+        autoconf cmake make ninja-build gcc g++ bison flex \
+        python3 python-is-python3 perl emacs openjdk-8-jdk swig \
+        zlib1g-dev python3-dev libxml2-dev libedit-dev \
+        libncurses-dev libsdl2-dev gtkwave python3-pip verilator
     pip3 install pillow
-
-**Note: Recent versions of cmake break building the LLVM toolchain. This can be worked 
-around by switching back to an older version of cmake: 
-<https://github.com/jbush001/NyuziProcessor/issues/204>**
 
 *Emacs is used for [verilog-mode](http://www.veripool.org/wiki/verilog-mode) AUTO macros.
 The makefile executes this operation in batch mode*
@@ -71,25 +69,20 @@ Linux under a virtual machine like [VirtualBox](https://www.virtualbox.org/wiki/
 The following script will download and install the
 [Nyuzi toolchain](https://github.com/jbush001/NyuziToolchain) and
 [Verilator](http://www.veripool.org/wiki/verilator) Verilog simulator.
-Although some Linux package managers have Verilator, they have old versions.
-It will ask for your root password a few times to install stuff.
 
     ./scripts/setup_tools.sh
 
 Build everything else:
 
-    cmake .
+    mkdir build
+    cd build
+    cmake ..
     make
 
 Run tests:
 
+    cd build
     make tests
-
-*If you are on a Linux distribution that defaults to python3, you may run into build
-problems with the compiler. In tools/NyuziToolchain/tools/CMakeLists.txt, comment
-out the following line:*
-
-    add_llvm_external_project(lldb)
 
 Occasionally a change will require a new version of the compiler. To rebuild:
 

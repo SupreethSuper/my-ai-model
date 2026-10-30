@@ -29,26 +29,6 @@ git submodule init || fail "Error initializing submodules"
 git submodule update || fail "Error updating submodules"
 
 #
-# Build Verilator
-#
-(
-cd tools/verilator
-
-# Configure if necessary
-# XXX if the project has been updated, this should probably do a configure again.
-if [ ! -f Makefile ]; then
-	if [ ! -f configure ]; then
-		autoconf || fail "Error creating configuration script for Verilator"
-	fi
-
-	./configure || fail "Error configurating Verilator"
-fi
-
-make || fail "Error building verilator"
-sudo make install || fail "Error installing verilator"
-)
-
-#
 # Build the compiler toolchain
 #
 mkdir -p tools/NyuziToolchain/build || fail "Error creating toolchain build directory"

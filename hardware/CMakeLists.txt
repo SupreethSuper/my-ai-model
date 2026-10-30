@@ -25,7 +25,7 @@ if(${ENABLE_VERILATOR_THREADS})
     ProcessorCount(NUM_THREADS)
     message("Configure verilator with ${NUM_THREADS} threads")
 else()
-    set(NUM_THREADS 0)
+    set(NUM_THREADS 1)
     message("Configure verilator with 1 thread")
 endif()
 
@@ -35,6 +35,7 @@ set(VERILATOR_GEN_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
 set(VERILATOR_OPTIONS --unroll-count 512
     --assert
     -Wall
+    -Wno-fatal
     -Wno-unused
     -Wno-pinconnectempty
     -Wno-declfilename
