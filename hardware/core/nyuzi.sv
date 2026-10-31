@@ -47,6 +47,7 @@ module nyuzi
     logic[`NUM_CORES - 1:0][TOTAL_THREADS - 1:0] core_resume_thread;
     logic[TOTAL_THREADS - 1:0] thread_suspend_mask;
     logic[TOTAL_THREADS - 1:0] thread_resume_mask;
+    logic[L2_PERF_EVENTS - 1:0] l2_perf_events;
 
     /*AUTOLOGIC*/
     // Beginning of automatic wires (for undeclared instantiated-module outputs)
@@ -93,9 +94,7 @@ module nyuzi
             thread_en <= (thread_en | thread_resume_mask) & ~thread_suspend_mask;
     end
 
-    l2_cache l2_cache(
-        .l2_perf_events(),
-        .*);
+    l2_cache l2_cache(.*);
 
     io_interconnect io_interconnect(.*);
 

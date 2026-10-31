@@ -63,15 +63,18 @@ module core
     input                                  ocd_data_update,
     output scalar_t                        cr_data_to_host,
 
+    // From l2_cache (shared by all cores)
+    input [L2_PERF_EVENTS - 1:0]           l2_perf_events,
+
     // To nyuzi
     output logic[TOTAL_THREADS - 1:0]      cr_suspend_thread,
     output logic[TOTAL_THREADS - 1:0]      cr_resume_thread);
 
-    localparam EVENT_IDX_WIDTH = $clog2(CORE_PERF_EVENTS);
+    localparam EVENT_IDX_WIDTH = $clog2(TOTAL_PERF_EVENTS);
     localparam NUM_PERF_COUNTERS = 2;
 
     logic core_selected_debug;
-    logic[CORE_PERF_EVENTS - 1:0] perf_events;
+    logic[TOTAL_PERF_EVENTS - 1:0] perf_events;
     logic[NUM_PERF_COUNTERS - 1:0][EVENT_IDX_WIDTH - 1:0] perf_event_select;
 
     /*AUTOLOGIC*/
@@ -379,7 +382,7 @@ module core
     control_registers #(
         .CORE_ID(CORE_ID),
         .NUM_INTERRUPTS(NUM_INTERRUPTS),
-        .NUM_PERF_EVENTS(CORE_PERF_EVENTS)
+        .NUM_PERF_EVENTS(TOTAL_PERF_EVENTS)
     ) control_registers(
         .cr_perf_event_select0(perf_event_select[0]),
         .cr_perf_event_select1(perf_event_select[1]),
@@ -398,9 +401,11 @@ module core
         injected_rollback <= wb_inst_injected & wb_rollback_en;
     end
 
-    // The number of signals in this assignment must match CORE_PERF_EVENTS
-    // in defines.sv.
+    // The number of signals in this assignment must match TOTAL_PERF_EVENTS
+    // in defines.svh. L2 events are appended after the core events (so they
+    // are shared/global across cores).
     assign perf_events = {
+        l2_perf_events,
         ix_perf_cond_branch_not_taken,
         ix_perf_cond_branch_taken,
         ix_perf_uncond_branch,
@@ -418,7 +423,7 @@ module core
     };
 
     performance_counters #(
-        .NUM_EVENTS(CORE_PERF_EVENTS),
+        .NUM_EVENTS(TOTAL_PERF_EVENTS),
         .NUM_COUNTERS(2)
     ) performance_counters(
         .*);

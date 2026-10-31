@@ -45,7 +45,7 @@ module test_control_registers(input clk, input reset);
     localparam JTAG_DATA_VAL0 = 32'hfc982951;
     localparam JTAG_DATA_VAL1 = 32'h7fc44607;
 
-    localparam EVENT_IDX_WIDTH = $clog2(CORE_PERF_EVENTS);
+    localparam EVENT_IDX_WIDTH = $clog2(TOTAL_PERF_EVENTS);
     localparam NUM_PERF_COUNTERS = 2;
 
     logic [NUM_INTERRUPTS - 1:0] interrupt_req;
@@ -86,7 +86,7 @@ module test_control_registers(input clk, input reset);
     control_registers #(
         .CORE_ID(4'd0),
         .NUM_INTERRUPTS(NUM_INTERRUPTS),
-        .NUM_PERF_EVENTS(CORE_PERF_EVENTS)
+        .NUM_PERF_EVENTS(TOTAL_PERF_EVENTS)
     ) control_registers(.*);
 
     task write_creg(input control_register_t index, input int value);

@@ -20,6 +20,6 @@ import sys
 sys.path.insert(0, '../..')
 import test_harness
 
-test_harness.register_generic_assembly_tests(['perf_counter.S'],
+test_harness.register_generic_assembly_tests(['perf_counter.S', 'perf_counter_l2.S'],
     ['verilator', 'fpga'])
 test_harness.execute_tests()
